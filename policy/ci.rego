@@ -17,7 +17,7 @@ default warn_as_fail := {
 }
 
 allowed_ports := {80, 443, 8080}
-allowed_env_vars := {"APP_ENV", "LOG_LEVEL", "DB_HOST", "DB_USER"}
+allowed_env_vars := {"APP_ENV", "LOG_LEVEL", "DB_HOST", "DB_USER", "API_KEY", "NAME", "SECRET"}
 
 # ---------------------------------------------------------------
 
