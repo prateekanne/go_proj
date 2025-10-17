@@ -85,7 +85,9 @@ jobs:
           test -f /tmp/report.json
           docker run --rm \
           -v /tmp:/tmp:ro \
+          -v "$(pwd)/policy:/policy:ro" \
           docker.io/exactlyprateek/opa_plugin:01 \
+          -policy /policy/ci.rego \
           /tmp/report.json | tee /tmp/opa-result.json
 
       - name: Upload OPA result
