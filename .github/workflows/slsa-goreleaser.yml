@@ -86,9 +86,19 @@ jobs:
           docker run --rm \
           -v /tmp:/tmp:ro \
           -v "$(pwd)/policy:/policy:ro" \
-          docker.io/exactlyprateek/opa_plugin:01 \
+          docker.io/exactlyprateek/opa_plugin:02 \
           -policy /policy/ci.rego \
           /tmp/report.json | tee /tmp/opa-result.json
+
+      - name: Check OPA result using jq
+        run: |
+          if jq -e '.summary.ok == true' /tmp/opa-result.json >/dev/null; then
+            echo "OPA check passed"
+          else
+            echo "OPA check failed"
+            cat /tmp/opa-result.json
+            exit 1
+          fi
 
       - name: Upload OPA result
         uses: actions/upload-artifact@v4
@@ -96,3 +106,4 @@ jobs:
           name: opa-result.json
           path: /tmp/opa-result.json
           if-no-files-found: error
+    
