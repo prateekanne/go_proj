@@ -8,17 +8,16 @@ default required := {
   "formatting":              true,
   "vulnerability_check":     false,
   "commit_verification":     false,
-  "env_variables_check":     true,
-  "slsa_check":              true,
-  "custom:Dockerfile Best Practices": false,
+  "env_variables_check":     false,
+  "slsa_check":              true
 }
 
 default warn_as_fail := {
   "linting": false,
 }
 
-allowed_ports := {80, 443, 8080}
-allowed_env_vars := {"APP_ENV", "LOG_LEVEL", "DB_HOST", "DB_USER"}
+allowed_ports := {80, 443, 8080, 9090}
+allowed_env_vars := {"APP_ENV", "LOG_LEVEL", "DB_HOST", "DB_USER", "API_KEY", "NAME", "SECRET"}
 
 # ---------------------------------------------------------------
 

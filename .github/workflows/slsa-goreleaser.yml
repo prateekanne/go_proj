@@ -1,8 +1,8 @@
 name: Build Go project with SLSA provenance
 on:
-  workflow_dispatch:
   push:
-    tags: ["*"]
+    branches: [ main ]
+  pull_request:
 
 jobs:
   # 1) gather git info
@@ -40,10 +40,12 @@ jobs:
       
 
   # 3) download + verify
-  verify:
+  verify_and_validate:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
       # a) pull the verifier code
       - uses: actions/checkout@v4
         with:
@@ -84,11 +86,12 @@ jobs:
         run: |
           test -f /tmp/report.json
           docker run --rm \
-          -v /tmp:/tmp:ro \
-          -v "$(pwd)/policy:/policy:ro" \
-          docker.io/exactlyprateek/opa_plugin:02 \
-          -policy /policy/ci.rego \
-          /tmp/report.json | tee /tmp/opa-result.json
+            -v /tmp:/tmp:ro \
+            -v "${GITHUB_WORKSPACE}/policy:/policy:ro" \
+            docker.io/exactlyprateek/opa_plugin:02 \
+            -policy /policy/ci.rego \
+            /tmp/report.json | tee /tmp/opa-result.json
+        
 
       - name: Check OPA result using jq
         run: |
