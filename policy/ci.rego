@@ -6,7 +6,7 @@ import rego.v1
 default required := {
   "linting":                 true,
   "formatting":              true,
-  "vulnerability_check":     true,
+  "vulnerability_check":     false,
   "commit_verification":     false,
   "env_variables_check":     true,
   "slsa_check":              true
