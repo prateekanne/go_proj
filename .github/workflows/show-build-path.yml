@@ -1,0 +1,34 @@
+name: Show build paths
+on:
+  workflow_dispatch:
+
+jobs:
+  # 1. Call the trusted SLSA Go builder that you already use
+  build:
+    uses: slsa-framework/slsa-github-generator/.github/workflows/builder_go_slsa3.yml@v2.1.0
+    with:
+      go-version: 1.24
+      upload-assets: false
+
+  # 2. Inspect the artifacts that the builder just produced
+  inspect:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      # a) Download the binary
+      - name: Download binary
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.build.outputs.go-binary-name }}
+
+      # b) Download the provenance
+      - name: Download provenance
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.build.outputs.go-provenance-name }}
+
+      # c) List everything so you can copy‑and‑paste the exact paths
+      - name: Show files
+        run: |
+          echo "Workspace: $PWD"
+          find . -maxdepth 2 -type f

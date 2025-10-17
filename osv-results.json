@@ -1,0 +1,371 @@
+{
+  "results": [
+    {
+      "source": {
+        "path": "/home/prateek/go_proj/go.mod",
+        "type": "lockfile"
+      },
+      "packages": [
+        {
+          "package": {
+            "name": "stdlib",
+            "version": "1.24.3",
+            "ecosystem": "Go"
+          },
+          "vulnerabilities": [
+            {
+              "modified": "2025-06-16T20:08:41Z",
+              "published": "2025-06-11T16:23:50Z",
+              "schema_version": "1.6.0",
+              "id": "GO-2025-3749",
+              "aliases": [
+                "BIT-golang-2025-22874",
+                "CVE-2025-22874"
+              ],
+              "summary": "Usage of ExtKeyUsageAny disables policy validation in crypto/x509",
+              "details": "Calling Verify with a VerifyOptions.KeyUsages that contains ExtKeyUsageAny unintentionally disabledpolicy validation. This only affected certificate chains which contain policy graphs, which are rather uncommon.",
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "Go",
+                    "name": "stdlib",
+                    "purl": "pkg:golang/stdlib"
+                  },
+                  "ranges": [
+                    {
+                      "type": "SEMVER",
+                      "events": [
+                        {
+                          "introduced": "1.24.0-0"
+                        },
+                        {
+                          "fixed": "1.24.4"
+                        }
+                      ]
+                    }
+                  ],
+                  "database_specific": {
+                    "source": "https://vuln.go.dev/ID/GO-2025-3749.json"
+                  },
+                  "ecosystem_specific": {
+                    "imports": [
+                      {
+                        "path": "crypto/x509",
+                        "symbols": [
+                          "Certificate.Verify"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "references": [
+                {
+                  "type": "FIX",
+                  "url": "https://go.dev/cl/670375"
+                },
+                {
+                  "type": "REPORT",
+                  "url": "https://go.dev/issue/73612"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://groups.google.com/g/golang-announce/c/ufZ8WpEsA3A"
+                }
+              ],
+              "credits": [
+                {
+                  "name": "Krzysztof Skrzętnicki (@Tener) of Teleport"
+                }
+              ],
+              "database_specific": {
+                "review_status": "REVIEWED",
+                "url": "https://pkg.go.dev/vuln/GO-2025-3749"
+              }
+            },
+            {
+              "modified": "2025-06-14T06:28:19Z",
+              "published": "2025-06-11T16:59:06Z",
+              "schema_version": "1.6.0",
+              "id": "GO-2025-3750",
+              "aliases": [
+                "BIT-golang-2025-0913",
+                "CVE-2025-0913"
+              ],
+              "summary": "Inconsistent handling of O_CREATE|O_EXCL on Unix and Windows in os in syscall",
+              "details": "os.OpenFile(path, os.O_CREATE|O_EXCL) behaved differently on Unix and Windows systems when the target path was a dangling symlink. On Unix systems, OpenFile with O_CREATE and O_EXCL flags never follows symlinks. On Windows, when the target path was a symlink to a nonexistent location, OpenFile would create a file in that location. OpenFile now always returns an error when the O_CREATE and O_EXCL flags are both set and the target path is a symlink.",
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "Go",
+                    "name": "stdlib",
+                    "purl": "pkg:golang/stdlib"
+                  },
+                  "ranges": [
+                    {
+                      "type": "SEMVER",
+                      "events": [
+                        {
+                          "introduced": "0"
+                        },
+                        {
+                          "fixed": "1.23.10"
+                        },
+                        {
+                          "introduced": "1.24.0-0"
+                        },
+                        {
+                          "fixed": "1.24.4"
+                        }
+                      ]
+                    }
+                  ],
+                  "database_specific": {
+                    "source": "https://vuln.go.dev/ID/GO-2025-3750.json"
+                  },
+                  "ecosystem_specific": {
+                    "imports": [
+                      {
+                        "goos": [
+                          "windows"
+                        ],
+                        "path": "syscall",
+                        "symbols": [
+                          "Open"
+                        ]
+                      },
+                      {
+                        "goos": [
+                          "windows"
+                        ],
+                        "path": "os",
+                        "symbols": [
+                          "Chdir",
+                          "Chmod",
+                          "Chown",
+                          "CopyFS",
+                          "Create",
+                          "CreateTemp",
+                          "File.ReadDir",
+                          "File.Readdir",
+                          "File.Readdirnames",
+                          "Getwd",
+                          "Lchown",
+                          "Link",
+                          "Lstat",
+                          "Mkdir",
+                          "MkdirAll",
+                          "MkdirTemp",
+                          "NewFile",
+                          "Open",
+                          "OpenFile",
+                          "OpenInRoot",
+                          "OpenRoot",
+                          "Pipe",
+                          "ReadDir",
+                          "ReadFile",
+                          "Remove",
+                          "RemoveAll",
+                          "Rename",
+                          "Root.Create",
+                          "Root.Lstat",
+                          "Root.Mkdir",
+                          "Root.Open",
+                          "Root.OpenFile",
+                          "Root.OpenRoot",
+                          "Root.Remove",
+                          "Root.Stat",
+                          "StartProcess",
+                          "Stat",
+                          "Symlink",
+                          "Truncate",
+                          "WriteFile",
+                          "dirFS.Open",
+                          "dirFS.ReadDir",
+                          "dirFS.ReadFile",
+                          "dirFS.Stat",
+                          "rootFS.Open",
+                          "rootFS.ReadDir",
+                          "rootFS.ReadFile",
+                          "rootFS.Stat",
+                          "unixDirent.Info"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "references": [
+                {
+                  "type": "FIX",
+                  "url": "https://go.dev/cl/672396"
+                },
+                {
+                  "type": "REPORT",
+                  "url": "https://go.dev/issue/73702"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://groups.google.com/g/golang-announce/c/ufZ8WpEsA3A"
+                }
+              ],
+              "credits": [
+                {
+                  "name": "Junyoung Park and Dong-uk Kim of KAIST Hacking Lab"
+                }
+              ],
+              "database_specific": {
+                "review_status": "REVIEWED",
+                "url": "https://pkg.go.dev/vuln/GO-2025-3750"
+              }
+            },
+            {
+              "modified": "2025-06-14T06:28:26Z",
+              "published": "2025-06-11T16:23:58Z",
+              "schema_version": "1.6.0",
+              "id": "GO-2025-3751",
+              "aliases": [
+                "BIT-golang-2025-4673",
+                "CVE-2025-4673"
+              ],
+              "summary": "Sensitive headers not cleared on cross-origin redirect in net/http",
+              "details": "Proxy-Authorization and Proxy-Authenticate headers persisted on cross-origin redirects potentially leaking sensitive information.",
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "Go",
+                    "name": "stdlib",
+                    "purl": "pkg:golang/stdlib"
+                  },
+                  "ranges": [
+                    {
+                      "type": "SEMVER",
+                      "events": [
+                        {
+                          "introduced": "0"
+                        },
+                        {
+                          "fixed": "1.23.10"
+                        },
+                        {
+                          "introduced": "1.24.0-0"
+                        },
+                        {
+                          "fixed": "1.24.4"
+                        }
+                      ]
+                    }
+                  ],
+                  "database_specific": {
+                    "source": "https://vuln.go.dev/ID/GO-2025-3751.json"
+                  },
+                  "ecosystem_specific": {
+                    "imports": [
+                      {
+                        "path": "net/http",
+                        "symbols": [
+                          "Client.Do",
+                          "Client.Get",
+                          "Client.Head",
+                          "Client.Post",
+                          "Client.PostForm",
+                          "Client.makeHeadersCopier",
+                          "Get",
+                          "Head",
+                          "Post",
+                          "PostForm"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "references": [
+                {
+                  "type": "FIX",
+                  "url": "https://go.dev/cl/679257"
+                },
+                {
+                  "type": "REPORT",
+                  "url": "https://go.dev/issue/73816"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://groups.google.com/g/golang-announce/c/ufZ8WpEsA3A"
+                }
+              ],
+              "credits": [
+                {
+                  "name": "Takeshi Kaneko (GMO Cybersecurity by Ierae, Inc.)"
+                }
+              ],
+              "database_specific": {
+                "review_status": "REVIEWED",
+                "url": "https://pkg.go.dev/vuln/GO-2025-3751"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "ids": [
+                "GO-2025-3749"
+              ],
+              "aliases": [
+                "BIT-golang-2025-22874",
+                "CVE-2025-22874",
+                "GO-2025-3749"
+              ],
+              "experimental_analysis": {
+                "GO-2025-3749": {
+                  "called": true,
+                  "unimportant": false
+                }
+              },
+              "max_severity": ""
+            },
+            {
+              "ids": [
+                "GO-2025-3750"
+              ],
+              "aliases": [
+                "BIT-golang-2025-0913",
+                "CVE-2025-0913",
+                "GO-2025-3750"
+              ],
+              "experimental_analysis": {
+                "GO-2025-3750": {
+                  "called": true,
+                  "unimportant": false
+                }
+              },
+              "max_severity": ""
+            },
+            {
+              "ids": [
+                "GO-2025-3751"
+              ],
+              "aliases": [
+                "BIT-golang-2025-4673",
+                "CVE-2025-4673",
+                "GO-2025-3751"
+              ],
+              "experimental_analysis": {
+                "GO-2025-3751": {
+                  "called": false,
+                  "unimportant": false
+                }
+              },
+              "max_severity": ""
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "experimental_config": {
+    "licenses": {
+      "summary": false,
+      "allowlist": null
+    }
+  }
+}
