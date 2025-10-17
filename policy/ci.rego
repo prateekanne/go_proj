@@ -6,11 +6,10 @@ import rego.v1
 default required := {
   "linting":                 true,
   "formatting":              true,
-  "vulnerability_check":     false,
+  "vulnerability_check":     true,
   "commit_verification":     false,
   "env_variables_check":     true,
-  "slsa_check":              true,
-  "custom:Dockerfile Best Practices": false,
+  "slsa_check":              true
 }
 
 default warn_as_fail := {
