@@ -84,11 +84,12 @@ jobs:
         run: |
           test -f /tmp/report.json
           docker run --rm \
-          -v /tmp:/tmp:ro \
-          -v "$(pwd)/policy:/policy:ro" \
-          docker.io/exactlyprateek/opa_plugin:02 \
-          -policy /policy/ci.rego \
-          /tmp/report.json | tee /tmp/opa-result.json
+            -v /tmp:/tmp:ro \
+            -v "${GITHUB_WORKSPACE}/policy:/policy:ro" \
+            docker.io/exactlyprateek/opa_plugin:02 \
+            -policy /policy/ci.rego \
+            /tmp/report.json | tee /tmp/opa-result.json
+        
 
       - name: Check OPA result using jq
         run: |
