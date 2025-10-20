@@ -1,4 +1,4 @@
-name: Build Go project with SLSA provenance
+name: Complete build and verification pipeline
 on:
   push:
     branches: [ main ]

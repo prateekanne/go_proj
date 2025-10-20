@@ -16,12 +16,12 @@ default warn_as_fail := {
   "linting": false,
 }
 
-allowed_ports := {80, 443, 8080, 9090}
+allowed_ports := {80, 443, 8080}
 allowed_env_vars := {"APP_ENV", "LOG_LEVEL", "DB_HOST", "DB_USER", "API_KEY", "NAME", "SECRET"}
 
 # ---------------------------------------------------------------
 
-# flat_report := inspect.print_report_strings(input)
+flat_report := inspect.print_report_strings(input)
 
 default stored_hash := ""
 stored_hash := s if {
@@ -33,14 +33,14 @@ stored_hash := s if {
 
 missing_stored if stored_hash == ""
 
-# calculated_hash := crypto.sha256(flat_report)
+calculated_hash := crypto.sha256(flat_report)
 
-# hash_match if {
-# print("calculated_hash")
-# print(calculated_hash)
-#   not missing_stored
-#   stored_hash == calculated_hash
-# }
+hash_match if {
+print("calculated_hash")
+print(calculated_hash)
+  not missing_stored
+  stored_hash == calculated_hash
+}
 
 # helpers
 is_required(name) := b if {
@@ -81,11 +81,12 @@ deny contains msg if {
   msg := "metadata.report_sha256 is missing"
 }
 
-# deny contains msg if {
-#   not missing_stored
-#   calculated_hash != stored_hash
-#   msg := sprintf("hash mismatch: stored=%s calculated=%s", [stored_hash, calculated_hash])
-# }
+deny contains msg if {
+  not missing_stored
+  calculated_hash != stored_hash
+  msg := sprintf("hash mismatch: stored=%s calculated=%s", [stored_hash, calculated_hash])
+}
+
 deny contains msg if {
     manifest := input.report.manifest_scan.kubernetes_manifests[_]
     port_info := manifest.exposed_ports[_]
@@ -99,12 +100,13 @@ deny contains msg if {
   failures[k]
   msg := sprintf("required check failed: %s", [k])
 }
-# deny contains msg if {
-#     manifest := input.report.manifest_scan.kubernetes_manifests[_]
-#     port_info := manifest.exposed_ports[_]
-#     not port_info.port in allowed_ports
-#     msg := sprintf("Port %v in %v is not allowed", [port_info.port, manifest.name])
-# }
+
+deny contains msg if {
+    manifest := input.report.manifest_scan.kubernetes_manifests[_]
+    port_info := manifest.exposed_ports[_]
+    not port_info.port in allowed_ports
+    msg := sprintf("Port %v in %v is not allowed", [port_info.port, manifest.name])
+}
 
 summary := {
   "hash": {
