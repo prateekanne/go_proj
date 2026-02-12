@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM golang:1.24-alpine AS builder
 
 # set env vars
 ENV APP_ENV=production \
@@ -8,15 +8,26 @@ ENV APP_ENV=production \
 # workdir
 WORKDIR /app
 
-# copy files
-COPY . /app
+COPY go.mod go.sum ./
 
-# install deps if requirements.txt exists
-RUN if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+RUN go mod download
 
-# expose ports
+COPY . .
+
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
+
+FROM alpine:latest
+
+RUN apk --no-cache add ca-certificates
+
+WORKDIR /root/
+
+COPY --from=builder /app/main .
+
+COPY --from=builder /app/index.html .
+
 EXPOSE 8080
 EXPOSE 9090
 
 # default command
-CMD ["python", "-m", "http.server", "8080"]
+CMD ["./main"]

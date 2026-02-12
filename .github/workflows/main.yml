@@ -3,7 +3,6 @@ name: CI build and verify
 on:
   push:
     branches: [ main ]
-  pull_request:
 
 jobs:
   build-and-verify:
